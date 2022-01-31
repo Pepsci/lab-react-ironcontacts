@@ -3,23 +3,27 @@ import { ContactList } from "./components/ContactList";
 import contactsJson from "./contacts.json"
 import {useState} from 'react'
 
-
+const copyContacts = contactsJson.slice(0,5)
 function App() {
 
-  let copyContacts = [...contactsJson]
-  const [contacts, setContact] = useState(copyContacts.slice(0, 5));
-   
-  const handleClikAdd = ()=>{
+  const [contacts, setContact] = useState(copyContacts);
+  
+  const handleClikAdd = (c)=>{
+    if(contacts.length === contactsJson.length) return;
+    let index = Math.floor(Math.random() * contactsJson.length )
+    let random = contactsJson[index]
+    const alreadyExist = contacts.find((c)=> c.id === random.id)
 
-    let random = Math.floor(Math.random() * contactsJson.length )
-    console.log(random);
-    for (let i = 0; i < contactsJson.length; i++) {
-      copyContacts.push(contactsJson[random])
+    if(!alreadyExist){
+      setContact([...contactsJson, random])
+    }else {
+      handleClikAdd()
     }
-    return setContact(copyContacts)
+
   }
     
   const handleSortByPopularity = () =>{
+  let copyContacts = [...contactsJson]
     copyContacts.sort((a,b) =>{
       return b.popularity - a.popularity
     })
@@ -27,6 +31,7 @@ function App() {
   }
 
   const handleSortByName = ()=>{
+  let copyContacts = [...contactsJson]
     copyContacts.sort((a,b) =>{
       return a.name.localeCompare(b.name)
     })
@@ -62,7 +67,9 @@ function App() {
         <tbody>
       {contacts.map((contact) =>{
         return (
-        <ContactList item={contact}/>
+        <ContactList item={contact}
+        deleteContact={handleDelete}
+        />
       )
       })}
         </tbody>

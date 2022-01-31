@@ -2,7 +2,7 @@ import React from 'react';
 import "./contacList.css"
 
 export const ContactList = (props) => {
-
+const {deleteContact, contact } = props
 
 
 
@@ -13,13 +13,13 @@ export const ContactList = (props) => {
 
   return (
         <>
-              <tr key={props.item.name}>
+              <tr key={props.item.id}>
                   <td><img src={props.item.pictureUrl} alt={props.item.name} /></td>
                   <td>{props.item.name}</td>
                   <td>{props.item.popularity}</td>
                   <td>{wonOscar}</td>
                   <td>{wonEmmy}</td>
-                  {/* <td><button onClick={handleDelete(e)}>Delete</button></td> */}
+                  <td><button onClick={()=>{deleteContact(contact.id)}}>Delete</button></td>
               </tr>
         </>
   );
